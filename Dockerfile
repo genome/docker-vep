@@ -28,4 +28,4 @@ RUN perl INSTALL.pl --NO_HTSLIB
 WORKDIR /
 RUN ln -s /opt/vep/ensembl-tools-release-86/scripts/variant_effect_predictor/variant_effect_predictor.pl /usr/bin/variant_effect_predictor.pl
 
-ENTRYPOINT ["perl", "/usr/bin/variant_effect_predictor.pl"]
+ENTRYPOINT ["/usr/bin/perl", "/usr/bin/variant_effect_predictor.pl"]
