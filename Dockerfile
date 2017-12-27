@@ -1,24 +1,11 @@
-FROM ubuntu:xenial
+FROM ensemblorg/ensembl-vep:release_90.10
 MAINTAINER Susanna Kiwala <ssiebert@wustl.edu>
 
 LABEL \
-  version="87" \
-  description="VEP image for use in Workflows"
+  version="90" \
+  description="VEP image with Wildtype and Downstream plugins"
 
-RUN apt-get update && \
-    apt-get install -y \
-        git \
-        bioperl
-
-RUN mkdir /opt/vep/
-
-WORKDIR /opt/vep
-RUN git clone https://github.com/Ensembl/ensembl-vep.git --branch release/87 --single-branch
-
-WORKDIR /opt/vep/ensembl-vep
-RUN perl INSTALL.pl --NO_HTSLIB
-
-WORKDIR /
-RUN ln -s /opt/vep/ensembl-vep/scripts/variant_effect_predictor/vep.pl /usr/bin/vep.pl
-
-ENTRYPOINT ["/usr/bin/perl", "/usr/bin/vep.pl"]
+RUN mkdir -p /home/vep/Plugins
+WORKDIR /home/vep/Plugins
+RUN wget https://raw.githubusercontent.com/Ensembl/VEP_plugins/release/90/Downstream.pm
+RUN wget https://raw.githubusercontent.com/griffithlab/pVACtools/master/tools/pvacseq/VEP_plugins/Wildtype.pm
